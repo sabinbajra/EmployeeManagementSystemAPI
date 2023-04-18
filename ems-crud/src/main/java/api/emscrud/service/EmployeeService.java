@@ -1,5 +1,6 @@
 package api.emscrud.service;
 
+import api.emscrud.exception.ResourceNotFoundException;
 import api.emscrud.model.Employee;
 import api.emscrud.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,19 @@ public class EmployeeService {
        return employeeRepository.findAll();
     }
 
-    public Employee getEmployeeById(Long id) {
-        return employeeRepository.findById(id).orElseThrow(new );
+    public Employee getEmployeeById(Long id) throws ResourceNotFoundException {
+        return employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+    }
+
+    public Employee createEmployee(Employee fromClient) {
+        return employeeRepository.save(fromClient);
+    }
+
+    public Employee updateEmployee(Employee result) {
+        return employeeRepository.save(result);
+    }
+
+    public void deleteEmployee(Employee employee) {
+        employeeRepository.delete(employee);
     }
 }
